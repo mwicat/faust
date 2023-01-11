@@ -284,6 +284,22 @@ void CPPCodeContainer::produceInternal()
     tab(n, *fOut);
 }
 
+void flush(ostream* ofs) {
+    ofs->flush();
+}
+
+long tellp(ostream* ofs) {
+    return ofs->tellp();
+}
+
+void write(ostream* ofs) {
+    *ofs << "abc";
+}
+
+void writenl(ostream* ofs) {
+    *ofs << '\n';
+}
+
 void CPPCodeContainer::produceClass()
 {
     int n = 0;

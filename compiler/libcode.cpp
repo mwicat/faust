@@ -1952,7 +1952,14 @@ static void generateCode(Tree signals, int numInputs, int numOutputs, bool gener
         outpath =
             (gGlobal->gOutputDir != "") ? (gGlobal->gOutputDir + "/" + gGlobal->gOutputFile) : gGlobal->gOutputFile;
 
-        unique_ptr<ofstream> fdst = unique_ptr<ofstream>(new ofstream(outpath.c_str()));
+        unique_ptr<ofstream> fdst = unique_ptr<ofstream>(new ofstream());
+        // Code generation depends on tellp/seekp to navigate around the buffer bug this generates
+        // problems on MinGW since buffer cursor will change after flush
+        #if defined(__MINGW64__) || defined(__MINGW32__)
+        fdst->rdbuf()->pubsetbuf(nullptr, 0);
+        #endif
+        fdst->open(outpath.c_str());
+
         if (!fdst->is_open()) {
             stringstream error;
             error << "ERROR : file '" << outpath << "' cannot be opened\n";
