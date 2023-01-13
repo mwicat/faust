@@ -169,7 +169,7 @@ class esp32audio : public audio {
             };
         #elif LYRA_T
             pin_config = {
-                .bck_io_num = 5,
+                .bck_io_num = 27,
                 .ws_io_num = 25,
                 .data_out_num = 26,
                 .data_in_num = 35
